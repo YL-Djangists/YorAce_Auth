@@ -1,0 +1,13 @@
+[flake8]
+application-import-names = users, users_status
+inline-quotes = single
+import-order-style = google
+
+exclude =
+    *migrations/
+    __pycache__
+    env
+    .env
+    .dev
+    .test
+    .prod
