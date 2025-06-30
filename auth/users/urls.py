@@ -68,11 +68,6 @@ urlpatterns = [
         users.views.SignUpView.as_view(), name='signup',
     ),
     django.urls.path(
-        'profile/',
-        users.views.PrivateProfileEditView.as_view(),
-        name='edit-profile',
-    ),
-    django.urls.path(
         '<str:username>/',
         users.views.PublicProfileView.as_view(),
         name='profile',

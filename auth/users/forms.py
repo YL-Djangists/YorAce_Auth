@@ -34,7 +34,7 @@ class UserEditForm(django.forms.ModelForm):
 class ProfileEditForm(django.forms.ModelForm):
     class Meta:
         model = users.models.UserProfile
-        fields = ['avatar']
+        fields = ['profile_picture']
 
     def __init__(self, *args, **kwargs):
         user_instance = kwargs.pop('user_instance', None)
@@ -51,7 +51,7 @@ class ProfileEditForm(django.forms.ModelForm):
         return self.user_form.is_valid() and super().is_valid()
 
     def clean_avatar(self):
-        avatar = self.cleaned_data.get('avatar')
+        avatar = self.cleaned_data.get('profile_picture')
         if avatar:
             if avatar.size > 5 * 1024 * 1024:
                 raise django.forms.ValidationError(

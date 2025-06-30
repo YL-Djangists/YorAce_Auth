@@ -1,0 +1,108 @@
+{% with view_name=request.resolver_match.view_name %}
+{% load static %}
+
+<header class="navbar navbar-expand-lg navbar-light bg-white sticky-top border-bottom">
+  <div class="container-fluid">
+
+    <!-- Mobile Burger -->
+    <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarCollapse">
+      <span class="navbar-toggler-icon"></span>
+    </button>
+
+        {% if user.is_authenticated and user.is_staff %}
+        <li class="nav-item">
+          <a class="nav-link text-danger" href="{% url 'admin:index' %}">
+            <i class="bi bi-shield-lock"></i> Админка
+          </a>
+        </li>
+        {% endif %}
+      </ul>
+
+      <!-- Auth Section -->
+      <div class="d-flex align-items-center">
+        {% if user.is_authenticated %}
+          <!-- User Dropdown -->
+          <div class="dropdown">
+            <a href="#" class="d-block link-dark text-decoration-none dropdown-toggle"
+               id="userDropdown" data-bs-toggle="dropdown" aria-expanded="false">
+              {% if user.profile.avatar %}
+                <img src="{{ user.profile.avatar.url }}"
+                    width="40" height="40"
+                    class="rounded-circle border object-fit-cover"
+                    onerror="this.src='{% static 'img/no-img.png' %}'">
+              {% else %}
+                <img src="{% static 'img/no-img.png' %}"
+                    width="40" height="40"
+                    class="rounded-circle border object-fit-cover"
+                    onerror="this.src='{% static 'img/no-img.png' %}'">
+              {% endif %}
+            </a>
+            <ul class="dropdown-menu dropdown-menu-end" aria-labelledby="userDropdown">
+              <li>
+                <a class="dropdown-item" href="{% url 'users:profile' user.username %}">
+                  <i class="bi bi-person"></i> Мой профиль
+                </a>
+              </li>
+              <li><hr class="dropdown-divider"></li>
+              <li>
+                <form method="POST" action="{% url 'users:logout' %}">
+                  {% csrf_token %}
+                  <a class="dropdown-item text-danger" href="javascript:void(0);" onclick="this.closest('form').submit();">
+                      <i class="bi bi-box-arrow-right"></i> Выйти
+                  </a>
+                </form>
+              </li>
+            </ul>
+          </div>
+        {% else %}
+          <!-- Guest Buttons -->
+          <div class="btn-group ms-2">
+            <a href="{% url 'users:login' %}"
+               class="btn btn-outline-primary btn-sm">
+              <i class="bi bi-box-arrow-in-right"></i> Войти
+            </a>
+            <a href="{% url 'users:signup' %}"
+               class="btn btn-primary btn-sm">
+              <i class="bi bi-person-plus"></i> Регистрация
+            </a>
+          </div>
+        {% endif %}
+      </div>
+    </div>
+  </div>
+</header>
+
+<style>
+  .navbar {
+    height: 70px;
+    box-shadow: 0 2px 10px rgba(0,0,0,0.05);
+    transition: all 0.3s ease;
+  }
+  .dropdown-menu {
+    margin-top: 10px;
+    border: none;
+    box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+  }
+  .nav-link.active {
+    position: relative;
+  }
+  .nav-link.active:after {
+    content: '';
+    position: absolute;
+    bottom: -5px;
+    left: 50%;
+    transform: translateX(-50%);
+    width: 60%;
+    height: 2px;
+    background: var(--bs-primary);
+  }
+  @media (max-width: 992px) {
+    .navbar-collapse {
+      padding: 20px 0;
+      background: white;
+      border-radius: 0 0 10px 10px;
+      box-shadow: 0 5px 10px rgba(0,0,0,0.1);
+    }
+  }
+</style>
+{% endwith %}

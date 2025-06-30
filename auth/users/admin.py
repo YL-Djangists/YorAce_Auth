@@ -11,7 +11,7 @@ __all__ = []
 class UserProfileAdmin(django.contrib.admin.ModelAdmin):
     list_display = ('user', 'avatar_preview', 'last_activity')
     list_select_related = ('user',)
-    search_fields = ('user__username')
+    search_fields = ('user__username',)
     readonly_fields = ('last_activity', 'avatar_preview')
 
     @django.contrib.admin.display(description='Avatar')
